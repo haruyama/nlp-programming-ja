@@ -3,7 +3,7 @@
             [nlp-programming-ja.chap00 :refer :all]))
 
 (deftest word-count-test
-         (is (= {"aa" 1}       (nlp-programming-ja.chap00/word-count "aa")))
-         (is (= {"aa" 1 "A" 1} (nlp-programming-ja.chap00/word-count "aa A")))
-         (is (= {"aa" 2 "A" 1} (nlp-programming-ja.chap00/word-count "aa A aa")))
-         (is (= {"aa" 1 "A" 1} (nlp-programming-ja.chap00/word-count "aa\nA"))))
+         (is (= [["aa" 1]]          (nlp-programming-ja.chap00/word-count "aa")))
+         (is (= [["A" 1]  ["aa" 1]] (nlp-programming-ja.chap00/word-count "aa A")))
+         (is (= [["aa" 2] ["A" 1]]  (nlp-programming-ja.chap00/word-count "aa A aa")))
+         (is (= [["A" 1]  ["aa" 1]] (nlp-programming-ja.chap00/word-count "aa\nA"))))

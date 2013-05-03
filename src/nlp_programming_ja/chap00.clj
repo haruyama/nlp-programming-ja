@@ -11,7 +11,8 @@
                                      (assoc wc word 1))))
     wc))
 (defn word-count [string]
-  (word-count-for-bag-of-words (clojure.string/split string #"\s+") (hash-map)))
+  (sort-by second >
+           (word-count-for-bag-of-words (clojure.string/split string #"\s+") (hash-map))))
 
 (defn -main [& args]
-  (word-count (mixi.io/slurp-file (first args))))
+  (println (word-count (mixi.io/slurp-file (first args)))))
