@@ -1,9 +1,7 @@
 (ns nlp-programming-ja.chap01
   (:require [clojure.string :only [split trim split-lines]]
-            [mixi.io :only [slurp-file]]))
-
-(defn split-string-par-line [string]
-  (map #(clojure.string/split (clojure.string/trim %) #"\s+") (clojure.string/split-lines string)))
+            [mixi.io :only [slurp-file]]
+            [nlp-programming-ja.lib :refer :all]))
 
 (def EOS "</s>")
 
@@ -18,7 +16,7 @@
     [total-count word-count]))
 
 (defn count-words-par-line [string]
-  (let [words-par-line (map #(conj % EOS) (split-string-par-line string))]
+  (let [words-par-line (map #(conj % EOS) (nlp-programming-ja.lib/split-string-of-each-line string))]
     (reduce #(count-words %2 (first %1) (second %1)) [0 (hash-map)] words-par-line)))
 
 (defn create-model
@@ -38,9 +36,6 @@
 (def LAMBDA_UNK  (- 1.0 LAMBDA_UNIGRAM))
 (def V 1000000)
 
-(defn log2 [n]
-  (/ (Math/log n) (Math/log 2)))
-
 (defn calc-entropy-and-coverage
   ([words model] (calc-entropy-and-coverage words model 0 0 0))
   ([words model word-number unk-number likelihood]
@@ -53,12 +48,12 @@
          (inc word-number)
          (if probalility unk-number (inc unk-number))
          (if probalility
-           (- likelihood (log2 (+ default-p (* probalility LAMBDA_UNIGRAM))))
-           (- likelihood (log2 default-p)))))
+           (- likelihood (nlp-programming-ja.lib/log2 (+ default-p (* probalility LAMBDA_UNIGRAM))))
+           (- likelihood (nlp-programming-ja.lib/log2 default-p)))))
         [(/ likelihood word-number) (/ (- word-number unk-number) (double word-number))])))
 
 (defn test-unigram [test-filename model]
-   (let [words (mapcat #(conj % EOS) (split-string-par-line (mixi.io/slurp-file test-filename)))]
+   (let [words (mapcat #(conj % EOS) (nlp-programming-ja.lib/split-string-of-each-line (mixi.io/slurp-file test-filename)))]
      (calc-entropy-and-coverage words model)))
 
 (defn -main [train-filename test-filename]

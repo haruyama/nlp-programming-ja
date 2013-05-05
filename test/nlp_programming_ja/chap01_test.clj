@@ -3,9 +3,6 @@
             [nlp-programming-ja.chap01 :refer :all]))
 
 
-(deftest split-string-par-line-test
-         (is (= [["hoge" "guha"] ["nyo" "tyo"]] (nlp-programming-ja.chap01/split-string-par-line "hoge guha\n nyo  tyo")))
-         )
 
 (deftest count-words-par-line-test
         (is (= [2 {"a" 1 "</s>" 1}] (nlp-programming-ja.chap01/count-words-par-line "a")))
