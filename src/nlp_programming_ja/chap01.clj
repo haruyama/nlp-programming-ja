@@ -55,8 +55,7 @@
          (if probalility
            (- likelihood (log2 (+ default-p (* probalility LAMBDA_UNIGRAM))))
            (- likelihood (log2 default-p)))))
-      (do
-        [(/ likelihood word-number) (/ (- word-number unk-number) (double word-number))]))))
+        [(/ likelihood word-number) (/ (- word-number unk-number) (double word-number))])))
 
 (defn test-unigram [test-filename model]
    (let [words (mapcat #(conj % EOS) (split-string-par-line (mixi.io/slurp-file test-filename)))]
