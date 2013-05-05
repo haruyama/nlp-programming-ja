@@ -2,17 +2,18 @@
   (:require [clojure.string :only [split]]
             [mixi.io :only [slurp-file]]))
 
-(defn- word-count-for-bag-of-words [bag-of-words wc]
+(defn- count-words [bag-of-words wc]
   (if bag-of-words
     (let [word (first bag-of-words)]
-      (word-count-for-bag-of-words (next bag-of-words)
-                                   (if (get wc word)
-                                     (update-in wc [word] inc)
-                                     (assoc wc word 1))))
+      (recur (next bag-of-words)
+             (if (get wc word)
+               (update-in wc [word] inc)
+               (assoc wc word 1))))
     wc))
-(defn word-count [string]
+
+(defn count-and-sort-words [string]
   (sort-by second >
-           (word-count-for-bag-of-words (clojure.string/split string #"\s+") (hash-map))))
+           (count-words (clojure.string/split string #"\s+") (hash-map))))
 
 (defn -main [& args]
-  (println (word-count (mixi.io/slurp-file (first args)))))
+  (println (count-and-sort-words (mixi.io/slurp-file (first args)))))
