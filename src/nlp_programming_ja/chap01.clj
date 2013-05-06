@@ -29,8 +29,7 @@
       model)))
 
 (defn train-unigram [train-filename]
-  (let [[total-count word-count] (count-words-par-line (mixi.io/slurp-file train-filename))]
-    (create-model total-count word-count)))
+  (apply create-model (count-words-par-line (mixi.io/slurp-file train-filename))))
 
 (def LAMBDA_UNIGRAM 0.95)
 (def LAMBDA_UNK  (- 1.0 LAMBDA_UNIGRAM))

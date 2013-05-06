@@ -47,8 +47,7 @@
 
 
 (defn train-bigram [train-filename]
-  (let [ [counts context-counts] (count-unigram-and-bigram (mixi.io/slurp-file train-filename))]
-    (create-model counts context-counts)))
+  (apply create-model (count-unigram-and-bigram (mixi.io/slurp-file train-filename))))
 
 
 
