@@ -6,10 +6,6 @@
 (def BOS "<s>")
 (def EOS "</s>")
 
-(defn inc-or-set [m k]
-  (if (get m k)
-    (update-in m [k] inc)
-    (assoc m k 1)))
 
 (defn count-unigram-and-bigram-for-line [words counts context-counts]
   (if (nnext words)
@@ -17,11 +13,11 @@
           s (second words)]
       (recur (next words)
              (-> counts
-               (inc-or-set (str f " " s))
-               (inc-or-set s))
+               (nlp-programming-ja.lib/inc-or-set (str f " " s))
+               (nlp-programming-ja.lib/inc-or-set s))
              (-> context-counts
-               (inc-or-set f)
-               (inc-or-set ""))))
+               (nlp-programming-ja.lib/inc-or-set f)
+               (nlp-programming-ja.lib/inc-or-set ""))))
     [counts context-counts]))
 
 
