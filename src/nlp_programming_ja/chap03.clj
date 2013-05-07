@@ -27,13 +27,11 @@
 
 (defn update-weights [w phi y]
   (if (not-empty phi)
-    (let [[n v] (first phi)
-          update (* (double v) y)]
-      (recur (if (get w n)
-               (update-in w [n] #(+ % update))
-               (assoc w n update))
+    (let [[n v] (first phi)]
+      (recur (assoc w n (+ (get w n 0.0) (* (double v) y)))
              (next phi)
-             y))
+             y)
+      )
     w))
 
 (defn train-1 [w data]
