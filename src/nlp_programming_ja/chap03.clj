@@ -46,9 +46,9 @@
     w))
 
 (defn train [w l data]
-  (if (= l 0)
+  (if (zero? l)
     w
-    (recur (train-1 w data) (- l 1) data)))
+    (recur (train-1 w data) (dec l) data)))
 
 (defn -main [filename]
   (prn
