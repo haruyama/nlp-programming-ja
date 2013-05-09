@@ -20,7 +20,7 @@
           (recur line probs (inc word-begin) word-end (assoc best-edge word-end [word-begin word-end]) (assoc best-score word-end score))
           (recur line probs (inc word-begin) word-end best-edge best-score))))))
 
-(defn backward-step ([line best-edge ] (backward-step line best-edge [] (get best-edge (- (count best-edge) 1)) ))
+(defn backward-step ([line best-edge ] (backward-step line best-edge [] (get best-edge (dec (count best-edge)))))
   ([line best-edge words next-edge]
     (if next-edge
       (let [word (subs line (first next-edge) (second next-edge))]
