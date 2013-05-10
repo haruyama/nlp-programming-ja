@@ -7,5 +7,5 @@
 (defn log2 [n]
   (/ (Math/log n) (Math/log 2)))
 
-(defn inc-or-set [m k]
+(defn inc-or-set-one [m k]
   (assoc m k (inc (get m k 0))))

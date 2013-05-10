@@ -13,11 +13,11 @@
           s (second words)]
       (recur (next words)
              (-> counts
-               (nlp-programming-ja.lib/inc-or-set (str f " " s))
-               (nlp-programming-ja.lib/inc-or-set s))
+               (nlp-programming-ja.lib/inc-or-set-one (str f " " s))
+               (nlp-programming-ja.lib/inc-or-set-one s))
              (-> context-counts
-               (nlp-programming-ja.lib/inc-or-set f)
-               (nlp-programming-ja.lib/inc-or-set ""))))
+               (nlp-programming-ja.lib/inc-or-set-one f)
+               (nlp-programming-ja.lib/inc-or-set-one ""))))
     [counts context-counts]))
 
 

@@ -10,7 +10,7 @@
   ([words phi]
     (if words
       (recur (next words)
-             (nlp-programming-ja.lib/inc-or-set phi (str PREFIX_UNIGRAM (first words))))
+             (nlp-programming-ja.lib/inc-or-set-one phi (str PREFIX_UNIGRAM (first words))))
       phi)))
 
 
