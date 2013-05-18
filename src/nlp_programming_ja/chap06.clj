@@ -26,7 +26,7 @@
   ([lines probs]
     (if lines
       (let [[e candidate pron prob] (first lines)]
-          (recur (next lines) (conj probs {:pron pron :candidate candidate :prob (Double. prob)})))
+        (recur (next lines) (conj probs {:pron pron :candidate candidate :prob (Double. prob)})))
       (group-by :pron probs))))
 
 
@@ -74,7 +74,7 @@
   ([edge score]
     (let [position (dec (count score))
           [min-word _] (reduce #(if (< (second %1) (second %2))  %1 %2) [nil 1e12] (get score position))]
-          (backward-step edge min-word position [])))
+      (backward-step edge min-word position [])))
   ([edge curr-word position words]
     (if (zero? position)
       (clojure.string/join " " (reverse words))
