@@ -63,27 +63,12 @@
                                                           [edge score]))
 
                                               [next-edge next-score] (tm-step my-tm edge score)]
-                                          (recur (inc begin) next-edge next-score))
-                                        ))]
+                                          (recur (inc begin) next-edge next-score))))]
                      (if (= end (inc line-count))
                        [edge score]
                        (let [[next-edge next-score] (begin-step 0 edge score)]
                          (recur next-edge next-score (inc end))))))]
     (end-step [{BOS nil}] [{BOS 0.0}] 1)))
-
-
-;  (forward-step line lm-probs tm-probs {0 {BOS nil}} {0 {BOS 0.0}} 1 (count line)))
-;  ([line lm-probs tm-probs edge score end line-count]
-;    (if (= end line-count)
-;      [edge score]
-;      (let [[next-edge next-score] (forward-step line lm-probs tm-probs edge score 0 end line-count {})]
-;        (recur line lm-probs tm-probs next-edge next-score 0 (inc  end) line-count )
-;        )
-;      )
-;    )
-;  ([line lm-probs tm-probs edge score begin end line-count my-edges]
-;    )
-;  )
 
 (defn backward-step
   ([edge score]
@@ -91,16 +76,10 @@
           [min-word _] (reduce #(if (< (second %1) (second %2))  %1 %2) [nil 1e12] (get score position))]
           (backward-step edge min-word position [])))
   ([edge curr-word position words]
-    (if (= position 0)
+    (if (zero? position)
       (clojure.string/join " " (reverse words))
       (let [[prev-position prev-word] (get-in edge [position curr-word])]
-        (recur edge prev-word prev-position (conj words curr-word))
-      ))))
-;  ([edge curr-word prons]
-;    (if (not= next-edge [0 BOS])
-;      (let [[position tag] next-edge]
-;        (recur best-edge (conj tags tag) (get best-edge next-edge)))
-;      (clojure.string/join " " (reverse tags))))
+        (recur edge prev-word prev-position (conj words curr-word))))))
 
 (defn -main [lm-filename tm-filename pron-filename]
   (let [lm-probs (read-lm lm-filename)
@@ -109,6 +88,4 @@
       (doseq [line lines]
         (let [[edge score] (forward-step line lm-probs tm-probs)]
           (prn
-            (backward-step edge score))
-          )
-        ))))
+            (backward-step edge score)))))))
